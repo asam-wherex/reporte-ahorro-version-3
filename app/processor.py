@@ -39,13 +39,22 @@ def _convert_unit_price(price, from_unit, to_unit):
 def _normalize_adjudicadas_columns(df):
     df.columns = [str(c).strip() for c in df.columns]
 
-    rename_map = {
-        "Unidad de Medica": "Unidad de medida",
-        "Cantidad Adutidaca": "Cantidad Adjudicada",
-        "Precio moneda local": "Precio en Moneda Local",
-        "Precio UNitario": "Precio Unitario",
-        "Fecha Adjudicación /Deserción": "Fecha Adjudicación",
-    }
+rename_map = {
+    "Unidad de Medica": "Unidad de Medida",
+    "Unidad de Medida ": "Unidad de Medida",
+    "Unidad de medida": "Unidad de Medida",
+    "unidad de medida": "Unidad de Medida",
+    "unidad de medica": "Unidad de Medida",
+    "Cantidad Adutidaca": "Cantidad Adjudicada",
+    "Cantidad Adjudicada ": "Cantidad Adjudicada",
+    "cantidad adjudicada": "Cantidad Adjudicada",
+    "Precio moneda local": "Precio en Moneda Local",
+    "precio moneda local": "Precio en Moneda Local",
+    "Precio UNitario": "Precio Unitario",
+    "precio unitario": "Precio Unitario",
+    "Fecha Adjudicación /Deserción": "Fecha Adjudicación",
+    "fecha adjudicación": "Fecha Adjudicación",
+}
 
     return df.rename(columns=rename_map)
 

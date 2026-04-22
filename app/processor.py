@@ -40,7 +40,7 @@ def _normalize_adjudicadas_columns(df):
     df.columns = [str(c).strip() for c in df.columns]
 
     rename_map = {
-        "Unidad de Medica": "Unidad de Medida",
+        "Unidad de Medica": "Unidad de medida",
         "Cantidad Adutidaca": "Cantidad Adjudicada",
         "Precio moneda local": "Precio en Moneda Local",
         "Precio UNitario": "Precio Unitario",

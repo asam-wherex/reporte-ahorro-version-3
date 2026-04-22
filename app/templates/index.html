@@ -1,5 +1,65 @@
-<html>
-  <body>
-    <h1>Reporte de Ahorro</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte de Ahorro 2026</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; }
+    h1 { margin-bottom: 10px; }
+    .box { border: 1px solid #ddd; padding: 20px; border-radius: 10px; }
+    label { display:block; margin-top:15px; font-weight:bold; }
+    button { margin-top: 20px; padding: 10px 16px; cursor:pointer; }
+    pre { background:#f6f6f6; padding:15px; border-radius:8px; white-space:pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Reporte de Ahorro 2026</h1>
+  <p>Sube el archivo de adjudicadas y el archivo de ofertas.</p>
+
+  <div class="box">
+    <form id="uploadForm">
+      <label>Archivo Adjudicadas (.xlsx)</label>
+      <input type="file" name="adjudicadas_file" accept=".xlsx" required>
+
+      <label>Archivo Ofertas (.xlsx)</label>
+      <input type="file" name="ofertas_file" accept=".xlsx" required>
+
+      <button type="submit">Generar reporte</button>
+    </form>
+  </div>
+
+  <h3>Resultado</h3>
+  <pre id="resultado">Esperando archivos...</pre>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const resultado = document.getElementById("resultado");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      resultado.textContent = "Procesando...";
+
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch("/procesar", {
+          method: "POST",
+          body: data
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          resultado.textContent = json.detail || "Error desconocido";
+          return;
+        }
+
+        resultado.textContent = JSON.stringify(json.resumen, null, 2);
+        window.location.href = json.download_url;
+      } catch (err) {
+        resultado.textContent = "Error al subir o procesar los archivos.";
+      }
+    });
+  </script>
+</body>
 </html>

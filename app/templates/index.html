@@ -31,45 +31,45 @@
   <h3>Resultado</h3>
   <pre id="resultado">Esperando archivos...</pre>
 
- <script>
-  const form = document.getElementById("uploadForm");
-  const resultado = document.getElementById("resultado");
+  <script>
+    const form = document.getElementById("uploadForm");
+    const resultado = document.getElementById("resultado");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    resultado.textContent = "Procesando...";
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      resultado.textContent = "Procesando...";
 
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch("/procesar", {
-        method: "POST",
-        body: data
-      });
-
-      const text = await res.text();
-      let json = {};
+      const data = new FormData(form);
 
       try {
-        json = JSON.parse(text);
-      } catch (e) {
-        json = { raw: text };
-      }
+        const res = await fetch("/procesar", {
+          method: "POST",
+          body: data
+        });
 
-      if (!res.ok) {
-        resultado.textContent =
-          json.detail ||
-          json.raw ||
-          "Error desconocido";
-        return;
-      }
+        const text = await res.text();
+        let json = {};
 
-      resultado.textContent = JSON.stringify(json.resumen, null, 2);
-      window.location.href = json.download_url;
-    } catch (err) {
-      resultado.textContent = "Error al subir o procesar los archivos.";
-    }
-  });
-</script>
+        try {
+          json = JSON.parse(text);
+        } catch (e) {
+          json = { raw: text };
+        }
+
+        if (!res.ok) {
+          resultado.textContent =
+            json.detail ||
+            json.raw ||
+            "Error desconocido";
+          return;
+        }
+
+        resultado.textContent = JSON.stringify(json.resumen, null, 2);
+        window.location.href = json.download_url;
+      } catch (err) {
+        resultado.textContent = "Error al subir o procesar los archivos.";
+      }
+    });
+  </script>
 </body>
 </html>
